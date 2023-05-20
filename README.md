@@ -19,7 +19,6 @@ const G = NewGenerators();
 |generate|create a generator from supplier function|
 |iterate|create a generator from seed value and function|
 |interleave|interleaves generators; infinite generator is supported|
-|outerProduct|create outer product of generators|
 |powerGenerator|create a generator of power set|
 |map|apply a function to each value of generators|
 |filter|filters values of generator|

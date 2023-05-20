@@ -128,13 +128,6 @@ describe("NewGenerators", function() {
             expect(Math.abs(G.toArray(G.limit(cn, 20)).reduce((accum, current) => accum + current) - Math.cos(1)) < 1e-10).toBeTruthy();
         });
 
-        it("outerProduct", function() {
-            testGenerator(G.outerProduct((x, y) => x - y, G.of(7, 6, 5), G.of(3, 4, 6)), 4, 3, 3, 2, 2, 1, 1, 0, -1);
-            testGenerator(G.outerProduct((x, y, z) => x + y + z, G.of(7, 6, 5), G.of(3, 4, 6), G.of(2, 7)),
-                12, 11, 13, 17, 10, 12, 15, 16, 18, 11, 14, 15, 17, 20, 13, 16, 19, 18);
-            testGeneratorPart(G.outerProduct((x, y) => x + y, G.range(2), G.of(2, 7)), 4, 5, 9, 6, 10, 7, 11, 8);
-        });
-
         it("powerGenerator", function() {
             testGenerator(G.powerGenerator([1, 2, 3], 2), [1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [3, 3]);
             testGenerator(G.powerGenerator([1, 2], 3), [1, 1, 1], [1, 1, 2], [1, 2, 1], [1, 2, 2], [2, 1, 1], [2, 1, 2], [2, 2, 1], [2, 2, 2]);
