@@ -107,63 +107,6 @@ function NewGenerators() {
             return delays[0];
         },
 
-        outerProduct: function*(f, ...gs) {
-            const memos = [];
-            const dones = [];
-            let ended = false;
-
-            function getFromGenerator(generatorIndex, index) {
-                if(index > memos[generatorIndex].length) {
-                    return false;
-                } else {
-                    const value = gs[generatorIndex].next();
-
-                    memos[generatorIndex].push(value.value);
-                    dones[generatorIndex] = value.done ? index : -1;
-                }
-
-                if(dones[generatorIndex] < index || memos[generatorIndex][index] !== undef) {
-                    return memos[generatorIndex][index];
-                } else {
-                    return false;
-                }
-            }
-
-            function* getValues(n, values, sum) {
-                if(n > 0) {
-                    for(let i = 0; i <= sum; i++) {
-                        const value = getFromGenerator(n, i);
-
-                        if(value) {
-                            yield* getValues(n - 1, [value].concat(values), sum - i);
-                        }
-                    }
-                } else {
-                    const value = getFromGenerator(n, sum);
-
-                    if(value) {
-                        yield f.apply(null, [value].concat(values));
-                    }
-                }
-            }
-
-            for(let i = 0; i < gs.length; i++) {
-                memos.push([]);
-                dones.push(-1);
-            }
-
-            for(let sum = 0; !ended; sum++) {
-                const outerGenerator = getValues(gs.length - 1, [], sum);
-                let next;
-
-                ended = true;
-                while(!(next = outerGenerator.next()).done) {
-                    yield next.value;
-                    ended = false;
-                }
-            }
-        },
-
         powerGenerator: function*(list, n, cutFunction) {
             function* inner(n, list0) {
                 for(let i = 0; i < list.length; i++) {
